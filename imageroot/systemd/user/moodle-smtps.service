@@ -1,0 +1,10 @@
+[Unit]
+Description=User-level SMTP Submission Proxy for Moodle (1587→587)
+After=default.target
+
+[Service]
+ExecStart=/usr/bin/socat TCP-LISTEN:1587,reuseaddr,fork TCP:mail.ksatdesign.com.au:587
+Restart=always
+
+[Install]
+WantedBy=default.target
