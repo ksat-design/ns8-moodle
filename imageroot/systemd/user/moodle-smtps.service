@@ -1,10 +1,11 @@
 [Unit]
-Description=User-level SMTP forwarder (1587 → mail.ksatdesign.com.au:587)
+Description=SMTP forwarder for Moodle rootless container (1587 → mail.ksatdesign.com.au:587)
 After=network.target
+Before=podman@moodle-app.service
 
 [Service]
 ExecStart=/usr/bin/socat TCP-LISTEN:1587,reuseaddr,fork TCP:mail.ksatdesign.com.au:587
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
