@@ -6,7 +6,8 @@
 [Unit]
 Description=Podman  moodle-app.service
 BindsTo=moodle.service
-After=moodle.service moodle-mariadb.service
+Requires=moodle-smtps.service
+After=moodle-smtps.service moodle.service moodle-mariadb.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -32,7 +33,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/moodle-app.pid \
     --env MOODLE_SITE_NAME=${MOODLE_SITE_NAME} \
     --volume moodle-data:/bitnami/moodle:Z \
     --volume moodledata-data:/bitnami/moodledata:Z \
-    ${MOODLE_IMAGE}
+    ghcr.io/ksat-design/moodle:main
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/moodle-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP moodle-app
 SyslogIdentifier=%u
